@@ -1,8 +1,3 @@
-"""
-TikTok Auto DM - Selenium Automation
-Kirim pesan otomatis ke beberapa username TikTok saat dijalankan
-"""
-
 import sys
 import time
 import logging
@@ -42,7 +37,7 @@ log = logging.getLogger(__name__)
 class TikTokDMSender:
 
     def _init_driver(self):
-        log.info("Memulai browser Chrome...")
+        log.info("open a new browser...")
         options = Options()
         if CONFIG["headless"]:
             options.add_argument("--headless=new")
@@ -66,7 +61,7 @@ class TikTokDMSender:
 
     def _login(self, driver):
         wait = WebDriverWait(driver, 30)
-        log.info("Membuka halaman login TikTok...")
+        log.info("open a new browser...")
         driver.get("https://www.tiktok.com/login/phone-or-email/email")
         time.sleep(3)
 
@@ -87,24 +82,24 @@ class TikTokDMSender:
                 By.XPATH, '//button[@data-e2e="login-button"]'
             )
             login_btn.click()
-            log.info("Menunggu login selesai...")
+            log.info("waiting for login to complete...")
             time.sleep(5)
 
             if "captcha" in driver.current_url.lower():
-                log.warning("CAPTCHA terdeteksi! Selesaikan manual dalam 60 detik...")
+                log.warning("CAPTCHA detected! Please complete it manually within 60 seconds...")
                 time.sleep(60)
 
-            log.info("Login berhasil!")
+            log.info("Login successful!")
             return True
 
         except Exception as e:
-            log.error(f"Gagal login: {e}")
+            log.error(f"Failed to login: {e}")
             driver.save_screenshot("login_error.png")
             return False
 
     def _send_dm(self, driver, username, message):
         wait = WebDriverWait(driver, 20)
-        log.info(f"Membuka profil @{username}...")
+        log.info(f"opening profile @{username}...")
 
         try:
             driver.get(f"https://www.tiktok.com/@{username}")
@@ -117,7 +112,7 @@ class TikTokDMSender:
                 ))
             )
             message_btn.click()
-            log.info(f"Membuka DM ke @{username}...")
+            log.info(f"opening DM to @{username}...")
             time.sleep(3)
 
             msg_box = wait.until(
@@ -133,41 +128,41 @@ class TikTokDMSender:
             msg_box.send_keys(Keys.RETURN)
             time.sleep(2)
 
-            log.info(f"Pesan berhasil dikirim ke @{username}")
+            log.info(f"Message sent successfully to @{username}")
             return True
 
         except Exception as e:
-            log.error(f"Gagal kirim pesan ke @{username}: {e}")
+            log.error(f"Failed to send message to @{username}: {e}")
             driver.save_screenshot(f"error_{username}.png")
             return False
 
     def run(self):
         log.info("=" * 50)
-        log.info(f"Mulai sesi - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        log.info(f"Starting session - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
         log.info("=" * 50)
 
         driver = self._init_driver()
         try:
             if not self._login(driver):
-                log.error("Login gagal, sesi dibatalkan.")
+                log.error("Login failed, session cancelled.")
                 return
 
-            berhasil = 0
-            gagal = 0
+            success = 0
+            failed = 0
 
             for username in CONFIG["target_usernames"]:
                 success = self._send_dm(driver, username, CONFIG["message"])
                 if success:
-                    berhasil += 1
+                    success += 1
                 else:
-                    gagal += 1
+                    failed += 1
                 time.sleep(CONFIG["delay_between_messages"])
 
-            log.info(f"Selesai - Berhasil: {berhasil} | Gagal: {gagal}")
+            log.info(f"Session completed - Successful: {success} | Failed: {failed}")
 
         finally:
             driver.quit()
-            log.info("Browser ditutup.")
+            log.info("Browser closed.")
 
 
 if __name__ == "__main__":
