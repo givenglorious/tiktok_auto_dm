@@ -21,7 +21,7 @@ Are you stuck in a doomscrolling loop on TikTok but too afraid to delete the app
 ```
 tiktok_auto_streak/
 ├── main.py
-├── tiktok_dmM.py
+├── tiktok_dmm.py
 ├── requirements.txt
 └── README.md
 ```
