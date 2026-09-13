@@ -4,7 +4,7 @@
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-2ea44f" alt="License: MIT"></a>
-  <a href="https://github.com/givenglorious/tiktok-auto-dm/releases"><img src="https://img.shields.io/github/v/release/givenglorious/tiktok-auto-dm?label=version&color=1f6feb" alt="Version"></a>
+  <a href="https://github.com/givenglorious/tiktok_auto_dm/releases"><img src="https://img.shields.io/github/v/release/givenglorious/tiktok_auto_dm?label=version&color=1f6feb" alt="Version"></a>
   <img src="https://img.shields.io/badge/python-3.9%2B-blue" alt="Python 3.9+">
   <img src="https://img.shields.io/badge/selenium-4.18-green" alt="Selenium">
 </p>
@@ -49,8 +49,8 @@ No email. No password. No bot detection. Just cookies.
 
 **1. Clone the repository:**
 ```bash
-git clone https://github.com/givenglorious/tiktok-auto-dm.git
-cd tiktok-auto-dm
+git clone https://github.com/givenglorious/tiktok_auto_dm.git
+cd tiktok_auto_dm
 ```
 
 **2. Install dependencies:**
@@ -97,7 +97,7 @@ The bot will open Chrome, load your TikTok session via cookies, and send the mes
 ## Project Structure
 
 ```
-tiktok-auto-dm/
+tiktok_auto_dm/
 ├── tiktok_dm.py        ← Main script
 ├── cookies.json        ← Your TikTok session (export from Cookie-Editor)
 ├── requirements.txt    ← Python dependencies
