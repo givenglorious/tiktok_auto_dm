@@ -1,80 +1,132 @@
-# TikTok Auto DM 🤖
+<p align="center">
+  <img src="./assets/banner.png" alt="streak-bot" width="100%" />
+</p>
+
+<p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-2ea44f" alt="License: MIT"></a>
+  <a href="https://github.com/givenglorious/tiktok-auto-dm/releases"><img src="https://img.shields.io/github/v/release/givenglorious/tiktok-auto-dm?label=version&color=1f6feb" alt="Version"></a>
+  <img src="https://img.shields.io/badge/python-3.9%2B-blue" alt="Python 3.9+">
+  <img src="https://img.shields.io/badge/selenium-4.18-green" alt="Selenium">
+</p>
+
+# streak-bot
 
 > **Delete TikTok. Keep your streaks.**
-
-Are you stuck in a doomscrolling loop on TikTok but too afraid to delete the app because your streaks with friends will break? This tool is the solution. Just run this program once a day — it automatically sends a message to all your friends so your streaks stay alive, without you ever opening TikTok.
-
----
-
-## Features
-
-- Auto login using TikTok email & password
-- Gmail format validation on email input
-- Send the same message to multiple usernames at once
-- Activity log saved to `tiktok_dm.log`
-- Auto screenshot on error for easy debugging
+>
+> Tired of doomscrolling on TikTok but scared to delete it because your streaks with friends will break? This tool automatically sends a DM to all your friends every time you run it — so you can finally delete the app without losing your streaks.
 
 ---
 
-## Project Structure
+## What it does
 
-```
-tiktok_auto_streak/
-├── main.py
-├── tiktok_dmm.py
-├── requirements.txt
-└── README.md
-```
+- **Cookie-based login** — no email/password stored, no bot detection
+- **Sends DMs automatically** to a list of TikTok usernames
+- **Skips unavailable accounts** — accounts that can't be DM'd are logged and skipped
+- **Activity log** saved to `tiktok_dm.log` after every run
+- **Screenshot on error** — saves a `.png` when something goes wrong for easy debugging
 
 ---
 
-## Installation
+## How it works
 
-1. Clone this repository:
-```bash
-git clone https://github.com/username/tiktok-auto-dm.git
-cd tiktok-auto-dm
+```
+Load cookies.json → Open TikTok → Click Message → Type & send → Next account
 ```
 
-2. Install dependencies:
-```bash
-pip install -r requirements.txt
-```
-
-3. Make sure **Google Chrome** is installed on your computer.
-
----
-
-## Usage
-
-Run the program:
-```bash
-python main.py
-```
-
-Follow the prompts in the terminal:
-```
-Enter your TikTok email  : emailkamu@gmail.com
-Enter your password      : ********
-Enter your message       : Streak!
-Enter target username    : friend1
-Add another account? (y/n): y
-Enter target username    : friend2
-Add another account? (y/n): n
-```
-
-The program will automatically open Chrome, log in to TikTok, and send the message to all listed usernames.
+No email. No password. No bot detection. Just cookies.
 
 ---
 
 ## Requirements
 
 - Python 3.9+
-- Google Chrome
-- See `requirements.txt` for Python packages
+- Google Chrome (latest)
+- ChromeDriver matching your Chrome version
 
 ---
 
-## Disclaimer
+## Installation
 
-This tool is intended for personal use only. Use responsibly and in accordance with TikTok's Terms of Service.
+**1. Clone the repository:**
+```bash
+git clone https://github.com/givenglorious/tiktok-auto-dm.git
+cd tiktok-auto-dm
+```
+
+**2. Install dependencies:**
+```bash
+pip install -r requirements.txt
+```
+
+**3. Export your TikTok cookies:**
+
+Install the [Cookie-Editor](https://chromewebstore.google.com/detail/cookie-editor/hlkenndednhfkekhgcdicdfddnkalmdm) extension in Chrome, log in to TikTok, then:
+- Open `tiktok.com`
+- Click the Cookie-Editor icon
+- Click **Export → Export as JSON**
+- Save the file as `cookies.json` in the project folder
+
+---
+
+## Configuration
+
+Open `tiktok_dm.py` and edit the `CONFIG` block:
+
+```python
+CONFIG = {
+    "cookies_file":           "cookies.json",  # Cookies file from Cookie-Editor
+    "message":                "STREAK!!!",     # Message to send
+    "target_usernames":       ["friend1", "friend2"],  # TikTok usernames (without @)
+    "headless":               False,           # False = visible | True = background
+    "delay_between_messages": 10,              # Seconds between each message
+}
+```
+
+---
+
+## Usage
+
+```bash
+python tiktok_dm.py
+```
+
+The bot will open Chrome, load your TikTok session via cookies, and send the message to every username in the list one by one.
+
+---
+
+## Project Structure
+
+```
+tiktok-auto-dm/
+├── tiktok_dm.py        ← Main script
+├── cookies.json        ← Your TikTok session (export from Cookie-Editor)
+├── requirements.txt    ← Python dependencies
+├── tiktok_dm.log       ← Activity log (auto-generated)
+└── README.md
+```
+
+---
+
+## FAQ
+
+**Do I need to export cookies every time?**
+No. Cookies are valid for several weeks. Re-export only when the bot says "Cookies expired."
+
+**What if an account can't be DM'd?**
+It gets logged as `SKIP` and the bot moves on to the next one. Usually means you're not following each other.
+
+**Can I run this on a server?**
+Set `"headless": True` in CONFIG. Note: TikTok may block headless Chrome — cookie login helps bypass this.
+
+**Is this against TikTok's ToS?**
+Automation may violate TikTok's Terms of Service. Use at your own risk and keep usage reasonable.
+
+---
+
+## License
+
+MIT: [LICENSE](LICENSE)
+
+---
+
+<p align="center"><em>"You don't need TikTok open to keep your streaks alive."</em></p>
