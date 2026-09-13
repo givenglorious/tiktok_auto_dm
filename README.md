@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./assets/banner.png" alt="streak-bot" width="100%" />
+  <img src="https://raw.githubusercontent.com/givenglorious/tiktok_auto_dm/master/assets/banner.png" alt="streak-bot" width="100%" />
 </p>
 
 <p align="center">
